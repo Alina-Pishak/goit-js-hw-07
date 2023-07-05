@@ -1,18 +1,10 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-//   {
-//     preview:
-//       'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
-//     original:
-//       'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
-//     description: 'Hokkaido Flower',
-//   }
-
 
 const gallery = document.querySelector('.gallery');
 
-
+// створення розмітки галереї
 const galleryList = galleryItems.map(({preview, original, description}) => `
 <li class="gallery__item">
 <a class="gallery__link" href="${original}">
@@ -25,12 +17,14 @@ alt="${description}"
 </a>
 </li>`).join('');
 
+// додавання розмітки на сторінку
 gallery.insertAdjacentHTML('afterbegin', galleryList);
 
 
 
 gallery.addEventListener('click', showImg);
 
+// створення модального вікна
 function showImg(evt) {
     if (evt.target.tagName !== 'IMG') {
         return;
@@ -42,15 +36,20 @@ function showImg(evt) {
     </div>
    `)
     instance.show();
- 
+
+    document.addEventListener('click', closeModal);
+
+// закривання модального вікна за допомогою клавіши 'Escape' 
     document.addEventListener('keydown', closeModal);
    
-    function closeModal(evt) {
-       if (evt.code !== 'Escape') {
+        function closeModal(evt) {
+       if (evt.code !== 'Escape' && evt.pointerType !== "touch") {
            return;
        } 
        instance.close();
    }
+    
+
 }
 
 
