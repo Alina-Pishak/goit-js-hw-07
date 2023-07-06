@@ -4,7 +4,6 @@ import { galleryItems } from './gallery-items.js';
 
 const gallery = document.querySelector('.gallery');
 
-// створення розмітки галереї
 const galleryList = galleryItems.map(({preview, original, description}) => `
 <li class="gallery__item">
 <a class="gallery__link" href="${original}">
@@ -17,46 +16,30 @@ alt="${description}"
 </a>
 </li>`).join('');
 
-// додавання розмітки на сторінку
 gallery.insertAdjacentHTML('afterbegin', galleryList);
 
 
-
-gallery.addEventListener('click', showImg);
-
-// створення модального вікна
-function showImg(evt) {
-    if (evt.target.tagName !== 'IMG') {
+gallery.onclick = (evt) => {
+ if (evt.target.tagName !== 'IMG') {
         return;
     }
     evt.preventDefault();
     const instance = basicLightbox.create(`
-    <div class="modal">
-       <img class="modal__image" src="${evt.target.dataset.source}" alt="${evt.target.attributes.alt.textContent}" width="800" height="600"/>
-    </div>
-   `)
+		<img width="1400" height="900" src="${evt.target.dataset.source}">
+	`);
     instance.show();
 
-    document.addEventListener('click', closeModal);
-
-// закривання модального вікна за допомогою клавіши 'Escape' 
     document.addEventListener('keydown', closeModal);
-   
+    
         function closeModal(evt) {
-       if (evt.code !== 'Escape' && evt.pointerType !== "touch") {
+       if (evt.code !== 'Escape') {
            return;
        } 
-       instance.close();
-   }
-    
+            instance.close();
+            document.removeEventListener('keydown', closeModal);
+    }
 
 }
 
 
 
-
-
-
-
-
-// console.log(galleryItems);
