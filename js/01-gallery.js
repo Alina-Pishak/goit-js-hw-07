@@ -26,17 +26,21 @@ gallery.onclick = (evt) => {
     evt.preventDefault();
     const instance = basicLightbox.create(`
 		<img width="1400" height="900" src="${evt.target.dataset.source}">
-	`);
+	`, {
+        onShow: () => {
+            document.addEventListener('keydown', closeModal);
+        },
+        onClose: () => {
+            document.removeEventListener('keydown', closeModal);
+        },
+    });
     instance.show();
-
-    document.addEventListener('keydown', closeModal);
     
         function closeModal(evt) {
        if (evt.code !== 'Escape') {
            return;
        } 
             instance.close();
-            document.removeEventListener('keydown', closeModal);
     }
 
 }
